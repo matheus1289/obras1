@@ -1,0 +1,48 @@
+:root {
+  /* === COLORS === */
+  --bg-primary:   #0d0f14;
+  --bg-surface:   #161a22;
+  --bg-card:      #1e242f;
+  --bg-card-hover:#242d3b;
+
+  --accent:       #f59e0b;
+  --accent-dim:   rgba(245, 158, 11, 0.12);
+  --accent-hover: #fbbf24;
+
+  --success:      #10b981;
+  --success-dim:  rgba(16, 185, 129, 0.12);
+
+  --danger:       #ef4444;
+  --danger-dim:   rgba(239, 68, 68, 0.12);
+
+  --info:         #3b82f6;
+  --purple:       #8b5cf6;
+  --orange:       #f97316;
+  --slate:        #64748b;
+
+  --text-primary:   #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted:     #475569;
+
+  --border:       rgba(255, 255, 255, 0.06);
+  --border-strong:rgba(255, 255, 255, 0.11);
+
+  /* === LAYOUT === */
+  --header-h: 68px;
+  --gap:      clamp(1rem, 2vw, 1.5rem);
+
+  /* === SHAPE === */
+  --radius:    14px;
+  --radius-sm:  8px;
+  --radius-lg: 20px;
+
+  /* === SHADOWS === */
+  --shadow-sm: 0 2px 8px  rgba(0,0,0,0.30);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.40);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.55);
+  --glow-accent: 0 0 22px rgba(245, 158, 11, 0.30);
+
+  /* === MOTION === */
+  --ease:     cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration: 0.22s;
+}

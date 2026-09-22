@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ObraControl — Sistema completo de controle de gastos de obra. Gerencie mão de obra, materiais, ferramentas e serviços.">
+  <title>ObraControl — Controle de Gastos de Obra</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/global/reset.css">
+  <link rel="stylesheet" href="css/global/variables.css">
+  <link rel="stylesheet" href="css/global/base.css">
+  <link rel="stylesheet" href="css/sections/header.css">
+  <link rel="stylesheet" href="css/sections/dashboard.css">
+  <link rel="stylesheet" href="css/sections/table.css">
+  <link rel="stylesheet" href="css/sections/form.css">
+  <link rel="stylesheet" href="css/sections/modal.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  HEADER                                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <header class="header" id="header">
+    <div class="header__inner">
+
+      <div class="header__brand">
+        <div class="header__logo" aria-hidden="true">
+          <i class="fa-solid fa-helmet-safety"></i>
+        </div>
+        <div>
+          <span class="header__title">ObraControl</span>
+          <span class="header__subtitle">Controle de Gastos</span>
+        </div>
+      </div>
+
+      <nav class="header__nav" id="mainNav" aria-label="Navegação principal">
+        <button class="nav-btn active" data-section="dashboard" id="nav-dashboard">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-btn" data-section="lancamentos" id="nav-lancamentos">
+          <i class="fa-solid fa-list-check"></i>
+          <span>Lançamentos</span>
+        </button>
+        <button class="nav-btn" data-section="configuracoes" id="nav-configuracoes">
+          <i class="fa-solid fa-gear"></i>
+          <span>Config.</span>
+        </button>
+      </nav>
+
+      <button class="header__menu-toggle" id="menuToggle" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  MAIN                                           -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <main class="main" id="main">
+
+    <!-- ─────────────────────────────────────────── -->
+    <!--  SECTION: Dashboard                         -->
+    <!-- ─────────────────────────────────────────── -->
+    <section class="section active" id="section-dashboard" aria-labelledby="title-dashboard">
+
+      <div class="section__header">
+        <div>
+          <h1 class="section__title" id="title-dashboard">Dashboard</h1>
+          <p class="section__subtitle" id="dashboardDate">Setembro 2026</p>
+        </div>
+        <button class="btn-primary open-form-btn" id="addExpenseBtnDashboard" aria-label="Adicionar Novo Gasto">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i> Novo Gasto
+        </button>
+      </div>
+
+      <!-- Budget progress -->
+      <div class="budget-card" id="budgetCard" role="region" aria-label="Orçamento da obra">
+        <div class="budget-card__info">
+          <span class="budget-card__label">Orçamento Total</span>
+          <span class="budget-card__total" id="budgetTotal">Não definido</span>
+        </div>
+        <div class="budget-card__percent" id="budgetPercent" aria-live="polite">—</div>
+        <div class="budget-card__bar-container">
+          <div class="budget-card__bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="budget-card__bar-fill" id="budgetBar"></div>
+          </div>
+          <div class="budget-card__bar-labels">
+            <span id="budgetSpent">Gasto: R$ 0,00</span>
+            <span id="budgetRemaining"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="cards-grid" id="cardsGrid">
+
+        <div class="stat-card" id="card-total">
+          <div class="stat-card__icon" style="--clr:#f59e0b; background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.22)">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+          <div class="stat-card__info">
+            <span class="stat-card__label">Total Gasto</span>
+            <span class="stat-card__value" id="totalGasto">R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="stat-card" id="card-mao-de-obra">
+          <div class="stat-card__icon" style="--clr:#3b82f6; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.22)">
+            <i class="fa-solid fa-person-digging"></i>
+          </div>
+          <div class="stat-card__info">
+            <span class="stat-card__label">Mão de Obra</span>
+            <span class="stat-card__value" id="totalMaoDeObra">R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="stat-card" id="card-material">
+          <div class="stat-card__icon" style="--clr:#8b5cf6; background:rgba(139,92,246,0.12); border:1px solid rgba(139,92,246,0.22)">
+            <i class="fa-solid fa-bricks"></i>
+          </div>
+          <div class="stat-card__info">
+            <span class="stat-card__label">Materiais</span>
+            <span class="stat-card__value" id="totalMaterial">R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="stat-card" id="card-ferramentas">
+          <div class="stat-card__icon" style="--clr:#f97316; background:rgba(249,115,22,0.12); border:1px solid rgba(249,115,22,0.22)">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+          <div class="stat-card__info">
+            <span class="stat-card__label">Ferramentas</span>
+            <span class="stat-card__value" id="totalFerramentas">R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="stat-card" id="card-servicos">
+          <div class="stat-card__icon" style="--clr:#10b981; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.22)">
+            <i class="fa-solid fa-truck"></i>
+          </div>
+          <div class="stat-card__info">
+            <span class="stat-card__label">Serviços</span>
+            <span class="stat-card__value" id="totalServicos">R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="stat-card" id="card-outros">
+          <div class="stat-card__icon" style="--clr:#64748b; background:rgba(100,116,139,0.12); border:1px solid rgba(100,116,139,0.22)">
+            <i class="fa-solid fa-box"></i>
+          </div>
+          <div class="stat-card__info">
+            <span class="stat-card__label">Outros</span>
+            <span class="stat-card__value" id="totalOutros">R$ 0,00</span>
+          </div>
+        </div>
+
+      </div><!-- /cards-grid -->
+
+      <!-- Chart -->
+      <div class="chart-card">
+        <div class="chart-card__header">
+          <h2 class="chart-card__title">Gastos por Categoria</h2>
+        </div>
+        <div class="chart-card__body">
+          <canvas id="categoryChart" aria-label="Gráfico de barras dos gastos por categoria" role="img"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent expenses -->
+      <div class="recent-card">
+        <div class="recent-card__header">
+          <h2 class="recent-card__title">Últimos Lançamentos</h2>
+          <button class="btn-link" id="seeAllBtn" aria-label="Ver todos os lançamentos">
+            Ver todos <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="recent-list" id="recentList">
+          <div class="empty-state" id="emptyDashboard">
+            <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+            <p>Nenhum gasto lançado ainda</p>
+            <button class="btn-primary open-form-btn" style="margin-top:0.75rem;">
+              <i class="fa-solid fa-plus" aria-hidden="true"></i> Novo Gasto
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /dashboard -->
+
+
+    <!-- ─────────────────────────────────────────── -->
+    <!--  SECTION: Lançamentos                       -->
+    <!-- ─────────────────────────────────────────── -->
+    <section class="section" id="section-lancamentos" aria-labelledby="title-lancamentos">
+
+      <div class="section__header">
+        <div>
+          <h1 class="section__title" id="title-lancamentos">Lançamentos</h1>
+          <p class="section__subtitle">Histórico completo de gastos</p>
+        </div>
+        <button class="btn-primary open-form-btn" id="addExpenseBtnLancamentos" aria-label="Adicionar Novo Gasto">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i> Novo Gasto
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters" role="search" aria-label="Filtros de lançamentos">
+        <div class="filter-group">
+          <label for="filterCategory">Categoria</label>
+          <select id="filterCategory" class="filter-select" aria-label="Filtrar por categoria">
+            <option value="">Todas</option>
+            <option value="mao-de-obra">👷 Mão de Obra</option>
+            <option value="material">🧱 Material</option>
+            <option value="ferramentas">🔧 Ferramentas</option>
+            <option value="servicos">🚚 Serviços</option>
+            <option value="outros">📦 Outros</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filterDateFrom">De</label>
+          <input type="date" id="filterDateFrom" class="filter-input" aria-label="Data inicial">
+        </div>
+        <div class="filter-group">
+          <label for="filterDateTo">Até</label>
+          <input type="date" id="filterDateTo" class="filter-input" aria-label="Data final">
+        </div>
+        <button class="btn-ghost" id="clearFilters" aria-label="Limpar filtros">
+          <i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Limpar
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrapper" role="region" aria-label="Tabela de gastos">
+        <table class="expense-table" id="expenseTable" aria-label="Lançamentos">
+          <thead>
+            <tr>
+              <th scope="col">Data</th>
+              <th scope="col">Categoria</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Responsável</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="expenseTableBody"></tbody>
+        </table>
+
+        <div class="empty-state" id="emptyTable" style="display:none">
+          <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+          <p>Nenhum lançamento encontrado</p>
+          <span>Tente ajustar os filtros</span>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="table-summary" aria-live="polite">
+        <span id="tableCount">0 registros</span>
+        <span class="table-summary__total">
+          Total filtrado: <strong id="tableTotal">R$ 0,00</strong>
+        </span>
+      </div>
+
+    </section><!-- /lancamentos -->
+
+
+    <!-- ─────────────────────────────────────────── -->
+    <!--  SECTION: Configurações                     -->
+    <!-- ─────────────────────────────────────────── -->
+    <section class="section" id="section-configuracoes" aria-labelledby="title-config">
+
+      <div class="section__header">
+        <h1 class="section__title" id="title-config">Configurações</h1>
+        <p class="section__subtitle">Personalize sua obra</p>
+      </div>
+
+      <div class="config-grid">
+
+        <!-- Budget -->
+        <div class="config-card">
+          <div class="config-card__icon" style="--clr:#f59e0b; background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.22)">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <h2 class="config-card__title">Orçamento da Obra</h2>
+          <p class="config-card__desc">Defina o valor total disponível. O dashboard mostrará quanto já foi utilizado.</p>
+          <div class="config-card__form">
+            <div class="input-group">
+              <span class="input-prefix">R$</span>
+              <input type="number" id="budgetInput" class="config-input"
+                placeholder="0,00" min="0" step="100" aria-label="Valor do orçamento">
+            </div>
+            <button class="btn-primary" id="saveBudgetBtn">
+              <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Salvar Orçamento
+            </button>
+          </div>
+        </div>
+
+        <!-- Export -->
+        <div class="config-card">
+          <div class="config-card__icon" style="--clr:#10b981; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.22)">
+            <i class="fa-solid fa-file-csv"></i>
+          </div>
+          <h2 class="config-card__title">Exportar Relatório</h2>
+          <p class="config-card__desc">Baixe todos os lançamentos em formato CSV para abrir no Excel ou Google Sheets.</p>
+          <button class="btn-success" id="exportCsvBtn">
+            <i class="fa-solid fa-download" aria-hidden="true"></i> Exportar CSV
+          </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="config-card">
+          <div class="config-card__icon" style="--clr:#3b82f6; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.22)">
+            <i class="fa-solid fa-database"></i>
+          </div>
+          <h2 class="config-card__title">Resumo dos Dados</h2>
+          <p class="config-card__desc">Visão geral dos lançamentos armazenados.</p>
+          <div class="stats-list" aria-label="Estatísticas dos dados">
+            <div class="stats-item">
+              <span>Total de lançamentos</span>
+              <strong id="statsCount">0</strong>
+            </div>
+            <div class="stats-item">
+              <span>Valor total gasto</span>
+              <strong id="statsTotal">R$ 0,00</strong>
+            </div>
+            <div class="stats-item">
+              <span>Maior lançamento</span>
+              <strong id="statsMax">R$ 0,00</strong>
+            </div>
+            <div class="stats-item">
+              <span>Média por lançamento</span>
+              <strong id="statsAvg">R$ 0,00</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Danger zone -->
+        <div class="config-card config-card--danger">
+          <div class="config-card__icon" style="--clr:#ef4444; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.22)">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <h2 class="config-card__title">Zona de Perigo</h2>
+          <p class="config-card__desc">Apaga todos os lançamentos e configurações salvos. Esta ação é irreversível.</p>
+          <button class="btn-danger" id="clearDataBtn">
+            <i class="fa-solid fa-trash" aria-hidden="true"></i> Limpar Todos os Dados
+          </button>
+        </div>
+
+      </div><!-- /config-grid -->
+
+    </section><!-- /configuracoes -->
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  FAB — Floating action button                   -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <button class="fab" id="fabBtn" aria-label="Adicionar novo gasto">
+    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+  </button>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  MODAL — Add / Edit Expense                     -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modalOverlay" role="presentation">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+      <div class="modal__header">
+        <h2 class="modal__title" id="modalTitle">Novo Gasto</h2>
+        <button class="modal__close" id="modalClose" aria-label="Fechar formulário">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <form class="modal__form" id="expenseForm" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expenseDate">Data *</label>
+            <input type="date" id="expenseDate" class="form-input" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="expenseCategory">Categoria *</label>
+            <select id="expenseCategory" class="form-input" required aria-required="true">
+              <option value="">Selecionar...</option>
+              <option value="mao-de-obra">👷 Mão de Obra</option>
+              <option value="material">🧱 Material de Construção</option>
+              <option value="ferramentas">🔧 Ferramentas / Equip.</option>
+              <option value="servicos">🚚 Serviços</option>
+              <option value="outros">📦 Outros</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="expenseDescription">Descrição *</label>
+          <input type="text" id="expenseDescription" class="form-input"
+            placeholder="Ex: Pedreiro — semana 1"
+            required aria-required="true" maxlength="200">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expenseValue">Valor (R$) *</label>
+            <input type="number" id="expenseValue" class="form-input"
+              placeholder="0,00" min="0.01" step="0.01"
+              required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="expenseResponsible">Responsável</label>
+            <input type="text" id="expenseResponsible" class="form-input"
+              placeholder="Ex: João Silva" maxlength="100">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-ghost" id="cancelBtn">Cancelar</button>
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <i class="fa-solid fa-check" aria-hidden="true"></i> Salvar
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  CONFIRM MODAL                                  -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="confirmOverlay" role="presentation">
+    <div class="modal modal--sm" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="modal__header">
+        <h2 class="modal__title" id="confirmTitle">Confirmar</h2>
+      </div>
+      <div class="modal__body">
+        <p id="confirmMessage">Tem certeza?</p>
+      </div>
+      <div class="form-actions" style="padding:1rem 1.5rem 1.5rem">
+        <button class="btn-ghost"  id="confirmCancel">Cancelar</button>
+        <button class="btn-danger" id="confirmOk">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  TOAST                                          -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="toast toast--success" id="toast" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" id="toastIcon" aria-hidden="true"></i>
+    <span id="toastMessage">Salvo com sucesso!</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  MOBILE BOTTOM NAVIGATION BAR                   -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <nav class="mobile-bottom-nav" aria-label="Navegação móvel">
+    <button class="mobile-nav-btn active" data-section="dashboard" id="mob-dashboard">
+      <i class="fa-solid fa-chart-pie"></i>
+      <span>Dashboard</span>
+    </button>
+    <button class="mobile-nav-btn" data-section="lancamentos" id="mob-lancamentos">
+      <i class="fa-solid fa-list-check"></i>
+      <span>Lançamentos</span>
+    </button>
+    <button class="mobile-nav-btn mobile-nav-btn--add open-form-btn" aria-label="Adicionar Novo Gasto">
+      <div class="mobile-nav-btn__fab">
+        <i class="fa-solid fa-plus"></i>
+      </div>
+    </button>
+    <button class="mobile-nav-btn" data-section="configuracoes" id="mob-configuracoes">
+      <i class="fa-solid fa-gear"></i>
+      <span>Config.</span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  SCRIPTS                                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://unpkg.com/scrollreveal@4/dist/scrollreveal.min.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/sections/dashboard.js"></script>
+  <script src="js/sections/form.js"></script>
+  <script src="js/sections/table.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

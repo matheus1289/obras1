@@ -1,0 +1,182 @@
+/* =====================================================
+   FORM — Modal form + Config section
+   ===================================================== */
+
+/* ── Expense Form ── */
+.modal__form {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  margin-bottom: 1rem;
+}
+.form-group:last-child { margin-bottom: 0; }
+
+.form-group label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.form-input {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  padding: 0.68rem 1rem;
+  width: 100%;
+  transition: border-color var(--duration) var(--ease),
+              box-shadow     var(--duration) var(--ease);
+}
+.form-input::placeholder { color: var(--text-muted); }
+.form-input option { background: var(--bg-card); color: var(--text-primary); }
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.form-input.error {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px var(--danger-dim);
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-4px); }
+  75%       { transform: translateX(4px); }
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* ── Config Section ── */
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--gap);
+}
+
+.config-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.config-card--danger {
+  border-color: rgba(239, 68, 68, 0.18);
+}
+
+.config-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--clr);
+  font-size: 1.2rem;
+}
+
+.config-card__title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.config-card__desc {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.config-card__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: border-color var(--duration) var(--ease),
+              box-shadow     var(--duration) var(--ease);
+}
+.input-group:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.input-prefix {
+  padding: 0.68rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.03);
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.config-input {
+  flex: 1;
+  background: none;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  padding: 0.68rem 0.9rem;
+}
+.config-input::placeholder { color: var(--text-muted); }
+
+/* ── Stats List ── */
+.stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stats-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.stats-item:last-child { border-bottom: none; }
+.stats-item span  { color: var(--text-secondary); }
+.stats-item strong {
+  color: var(--text-primary);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .form-row    { grid-template-columns: 1fr; }
+  .config-grid { grid-template-columns: 1fr; }
+}
