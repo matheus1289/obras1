@@ -106,36 +106,83 @@ const Dashboard = (() => {
     });
   }
 
-  // ── Mobile Carousel Dots Sync ──────────────────────
+  // ── Mobile Carousel Controls & Sync ────────────────
   let initializedCarousel = false;
   function initCarousel() {
     if (initializedCarousel) return;
-    const grid = document.getElementById('cardsGrid');
+    const grid          = document.getElementById('cardsGrid');
     const dotsContainer = document.getElementById('carouselDots');
-    if (!grid || !dotsContainer) return;
+    const prevBtn       = document.getElementById('carouselPrev');
+    const nextBtn       = document.getElementById('carouselNext');
 
-    const dots  = dotsContainer.querySelectorAll('.dot');
+    if (!grid) return;
+
     const cards = grid.querySelectorAll('.stat-card');
+    const dots  = dotsContainer ? dotsContainer.querySelectorAll('.dot') : [];
 
-    grid.addEventListener('scroll', () => {
+    function updateNav() {
       const scrollPos = grid.scrollLeft;
       const cardWidth = cards[0] ? cards[0].offsetWidth + 14 : 200;
-      const index = Math.round(scrollPos / cardWidth);
+      const index     = Math.round(scrollPos / cardWidth);
 
       dots.forEach((dot, i) => {
         dot.classList.toggle('active', i === Math.min(index, dots.length - 1));
       });
-    }, { passive: true });
+
+      if (prevBtn) prevBtn.style.opacity = scrollPos <= 10 ? '0.35' : '1';
+      if (nextBtn) {
+        const isEnd = scrollPos >= grid.scrollWidth - grid.clientWidth - 15;
+        nextBtn.style.opacity = isEnd ? '0.35' : '1';
+      }
+    }
+
+    grid.addEventListener('scroll', updateNav, { passive: true });
+
+    function scrollToCard(index) {
+      if (!cards[index]) return;
+      const card = cards[index];
+      const targetX = card.offsetLeft - grid.offsetLeft;
+      grid.scrollTo({ left: Math.max(0, targetX), behavior: 'smooth' });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const cardWidth = cards[0] ? cards[0].offsetWidth + 14 : 240;
+        grid.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const cardWidth = cards[0] ? cards[0].offsetWidth + 14 : 240;
+        grid.scrollBy({ left: cardWidth, behavior: 'smooth' });
+      });
+    }
 
     dots.forEach((dot, i) => {
       dot.style.cursor = 'pointer';
-      dot.addEventListener('click', () => {
-        if (cards[i]) {
-          cards[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        }
-      });
+      dot.addEventListener('click', () => scrollToCard(i));
     });
 
+    // Mouse drag support for desktop
+    let isDown = false, startX, scrollLeft;
+    grid.addEventListener('mousedown', e => {
+      isDown = true;
+      grid.classList.add('dragging');
+      startX = e.pageX - grid.offsetLeft;
+      scrollLeft = grid.scrollLeft;
+    });
+    grid.addEventListener('mouseleave', () => { isDown = false; grid.classList.remove('dragging'); });
+    grid.addEventListener('mouseup',    () => { isDown = false; grid.classList.remove('dragging'); });
+    grid.addEventListener('mousemove',  e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - grid.offsetLeft;
+      const walk = (x - startX) * 1.6;
+      grid.scrollLeft = scrollLeft - walk;
+    });
+
+    updateNav();
     initializedCarousel = true;
   }
 

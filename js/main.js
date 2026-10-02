@@ -196,10 +196,10 @@ const App = (() => {
     // Dashboard elements via ScrollReveal
     if (typeof ScrollReveal !== 'undefined') {
       const sr = ScrollReveal({ distance: '20px', duration: 550, easing: 'cubic-bezier(0.25,0.46,0.45,0.94)', reset: false });
-      sr.reveal('.budget-card', { origin: 'top',    delay: 80  });
-      sr.reveal('.stat-card',   { origin: 'bottom', delay: 120, interval: 70 });
-      sr.reveal('.chart-card',  { origin: 'bottom', delay: 160 });
-      sr.reveal('.recent-card', { origin: 'bottom', delay: 200 });
+      sr.reveal('.budget-card',             { origin: 'top',    delay: 80  });
+      sr.reveal('.cards-carousel-wrapper', { origin: 'bottom', delay: 120 });
+      sr.reveal('.chart-card',              { origin: 'bottom', delay: 160 });
+      sr.reveal('.recent-card',             { origin: 'bottom', delay: 200 });
     }
   }
 
