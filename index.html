@@ -102,70 +102,117 @@
         </div>
       </div>
 
-      <!-- Stat cards -->
-      <div class="cards-grid" id="cardsGrid">
+      <!-- Stat cards slider container -->
+      <div class="cards-carousel-wrapper">
+        <div class="cards-grid" id="cardsGrid">
 
-        <div class="stat-card" id="card-total">
-          <div class="stat-card__icon" style="--clr:#f59e0b; background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.22)">
-            <i class="fa-solid fa-coins"></i>
+          <div class="stat-card" id="card-total" style="--card-clr:#f59e0b;">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" style="--clr:#f59e0b; background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.22)">
+                <i class="fa-solid fa-coins"></i>
+              </div>
+              <span class="stat-card__chip stat-card__chip--accent">100%</span>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Total Gasto</span>
+              <span class="stat-card__value" id="totalGasto">R$ 0,00</span>
+            </div>
+            <div class="stat-card__bar-track">
+              <div class="stat-card__bar-fill" style="width:100%; background:#f59e0b;"></div>
+            </div>
           </div>
-          <div class="stat-card__info">
-            <span class="stat-card__label">Total Gasto</span>
-            <span class="stat-card__value" id="totalGasto">R$ 0,00</span>
+
+          <div class="stat-card" id="card-mao-de-obra" style="--card-clr:#3b82f6;">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" style="--clr:#3b82f6; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.22)">
+                <i class="fa-solid fa-person-digging"></i>
+              </div>
+              <span class="stat-card__chip" id="pctMaoDeObra">0%</span>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Mão de Obra</span>
+              <span class="stat-card__value" id="totalMaoDeObra">R$ 0,00</span>
+            </div>
+            <div class="stat-card__bar-track">
+              <div class="stat-card__bar-fill" id="barMaoDeObra" style="width:0%; background:#3b82f6;"></div>
+            </div>
           </div>
+
+          <div class="stat-card" id="card-material" style="--card-clr:#8b5cf6;">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" style="--clr:#8b5cf6; background:rgba(139,92,246,0.12); border:1px solid rgba(139,92,246,0.22)">
+                <i class="fa-solid fa-bricks"></i>
+              </div>
+              <span class="stat-card__chip" id="pctMaterial">0%</span>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Materiais</span>
+              <span class="stat-card__value" id="totalMaterial">R$ 0,00</span>
+            </div>
+            <div class="stat-card__bar-track">
+              <div class="stat-card__bar-fill" id="barMaterial" style="width:0%; background:#8b5cf6;"></div>
+            </div>
+          </div>
+
+          <div class="stat-card" id="card-ferramentas" style="--card-clr:#f97316;">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" style="--clr:#f97316; background:rgba(249,115,22,0.12); border:1px solid rgba(249,115,22,0.22)">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+              </div>
+              <span class="stat-card__chip" id="pctFerramentas">0%</span>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Ferramentas</span>
+              <span class="stat-card__value" id="totalFerramentas">R$ 0,00</span>
+            </div>
+            <div class="stat-card__bar-track">
+              <div class="stat-card__bar-fill" id="barFerramentas" style="width:0%; background:#f97316;"></div>
+            </div>
+          </div>
+
+          <div class="stat-card" id="card-servicos" style="--card-clr:#10b981;">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" style="--clr:#10b981; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.22)">
+                <i class="fa-solid fa-truck"></i>
+              </div>
+              <span class="stat-card__chip" id="pctServicos">0%</span>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Serviços</span>
+              <span class="stat-card__value" id="totalServicos">R$ 0,00</span>
+            </div>
+            <div class="stat-card__bar-track">
+              <div class="stat-card__bar-fill" id="barServicos" style="width:0%; background:#10b981;"></div>
+            </div>
+          </div>
+
+          <div class="stat-card" id="card-outros" style="--card-clr:#64748b;">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" style="--clr:#64748b; background:rgba(100,116,139,0.12); border:1px solid rgba(100,116,139,0.22)">
+                <i class="fa-solid fa-box"></i>
+              </div>
+              <span class="stat-card__chip" id="pctOutros">0%</span>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Outros</span>
+              <span class="stat-card__value" id="totalOutros">R$ 0,00</span>
+            </div>
+            <div class="stat-card__bar-track">
+              <div class="stat-card__bar-fill" id="barOutros" style="width:0%; background:#64748b;"></div>
+            </div>
+          </div>
+
+        </div><!-- /cards-grid -->
+
+        <div class="cards-carousel-dots" id="carouselDots" aria-hidden="true">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
         </div>
-
-        <div class="stat-card" id="card-mao-de-obra">
-          <div class="stat-card__icon" style="--clr:#3b82f6; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.22)">
-            <i class="fa-solid fa-person-digging"></i>
-          </div>
-          <div class="stat-card__info">
-            <span class="stat-card__label">Mão de Obra</span>
-            <span class="stat-card__value" id="totalMaoDeObra">R$ 0,00</span>
-          </div>
-        </div>
-
-        <div class="stat-card" id="card-material">
-          <div class="stat-card__icon" style="--clr:#8b5cf6; background:rgba(139,92,246,0.12); border:1px solid rgba(139,92,246,0.22)">
-            <i class="fa-solid fa-bricks"></i>
-          </div>
-          <div class="stat-card__info">
-            <span class="stat-card__label">Materiais</span>
-            <span class="stat-card__value" id="totalMaterial">R$ 0,00</span>
-          </div>
-        </div>
-
-        <div class="stat-card" id="card-ferramentas">
-          <div class="stat-card__icon" style="--clr:#f97316; background:rgba(249,115,22,0.12); border:1px solid rgba(249,115,22,0.22)">
-            <i class="fa-solid fa-screwdriver-wrench"></i>
-          </div>
-          <div class="stat-card__info">
-            <span class="stat-card__label">Ferramentas</span>
-            <span class="stat-card__value" id="totalFerramentas">R$ 0,00</span>
-          </div>
-        </div>
-
-        <div class="stat-card" id="card-servicos">
-          <div class="stat-card__icon" style="--clr:#10b981; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.22)">
-            <i class="fa-solid fa-truck"></i>
-          </div>
-          <div class="stat-card__info">
-            <span class="stat-card__label">Serviços</span>
-            <span class="stat-card__value" id="totalServicos">R$ 0,00</span>
-          </div>
-        </div>
-
-        <div class="stat-card" id="card-outros">
-          <div class="stat-card__icon" style="--clr:#64748b; background:rgba(100,116,139,0.12); border:1px solid rgba(100,116,139,0.22)">
-            <i class="fa-solid fa-box"></i>
-          </div>
-          <div class="stat-card__info">
-            <span class="stat-card__label">Outros</span>
-            <span class="stat-card__value" id="totalOutros">R$ 0,00</span>
-          </div>
-        </div>
-
-      </div><!-- /cards-grid -->
+      </div><!-- /cards-carousel-wrapper -->
 
       <!-- Chart -->
       <div class="chart-card">

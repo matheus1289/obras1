@@ -82,6 +82,61 @@ const Dashboard = (() => {
     set('totalFerramentas', totals['ferramentas']);
     set('totalServicos',    totals['servicos']);
     set('totalOutros',      totals['outros']);
+
+    const cats = [
+      { key: 'mao-de-obra', pctId: 'pctMaoDeObra', barId: 'barMaoDeObra' },
+      { key: 'material',    pctId: 'pctMaterial',    barId: 'barMaterial' },
+      { key: 'ferramentas', pctId: 'pctFerramentas', barId: 'barFerramentas' },
+      { key: 'servicos',    pctId: 'pctServicos',    barId: 'barServicos' },
+      { key: 'outros',      pctId: 'pctOutros',      barId: 'barOutros' }
+    ];
+
+    cats.forEach(c => {
+      const val = totals[c.key] || 0;
+      const pct = total > 0 ? (val / total) * 100 : 0;
+      const pctStr = pct > 0 && pct < 1 ? '<1%' : `${Math.round(pct)}%`;
+      const $pct = document.getElementById(c.pctId);
+      const $bar = document.getElementById(c.barId);
+      if ($pct) $pct.textContent = pctStr;
+      if ($bar) {
+        requestAnimationFrame(() => {
+          $bar.style.width = `${Math.min(pct, 100)}%`;
+        });
+      }
+    });
+  }
+
+  // ── Mobile Carousel Dots Sync ──────────────────────
+  let initializedCarousel = false;
+  function initCarousel() {
+    if (initializedCarousel) return;
+    const grid = document.getElementById('cardsGrid');
+    const dotsContainer = document.getElementById('carouselDots');
+    if (!grid || !dotsContainer) return;
+
+    const dots  = dotsContainer.querySelectorAll('.dot');
+    const cards = grid.querySelectorAll('.stat-card');
+
+    grid.addEventListener('scroll', () => {
+      const scrollPos = grid.scrollLeft;
+      const cardWidth = cards[0] ? cards[0].offsetWidth + 14 : 200;
+      const index = Math.round(scrollPos / cardWidth);
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === Math.min(index, dots.length - 1));
+      });
+    }, { passive: true });
+
+    dots.forEach((dot, i) => {
+      dot.style.cursor = 'pointer';
+      dot.addEventListener('click', () => {
+        if (cards[i]) {
+          cards[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      });
+    });
+
+    initializedCarousel = true;
   }
 
   // ── Chart ──────────────────────────────────────────
@@ -237,6 +292,7 @@ const Dashboard = (() => {
     renderDate();
     renderBudget(total, budget);
     renderCards(total, totals);
+    initCarousel();
 
     const canvas = document.getElementById('categoryChart');
     if (canvas) drawChart(canvas, totals);
